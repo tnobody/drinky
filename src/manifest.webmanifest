@@ -1,0 +1,39 @@
+{
+    "short_name": "Hydro",
+    "name": "Hydro",
+    "icons": [{
+            "src": "public/logo16.png",
+            "type": "image/png",
+            "sizes": "16x16"
+        },
+        {
+            "src": "public/logo24.png",
+            "type": "image/png",
+            "sizes": "24x24"
+        },
+        {
+            "src": "public/logo32.png",
+            "type": "image/png",
+            "sizes": "32x32"
+        },
+        {
+            "src": "public/logo64.png",
+            "type": "image/png",
+            "sizes": "64x64"
+        },
+        {
+            "src": "public/logo192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "public/logo512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#98CCF3",
+    "background_color": "#000000"
+}

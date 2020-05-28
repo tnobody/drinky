@@ -1,18 +1,24 @@
 <template>
-  <div id="app-canvas" class="flex flex-col bg-black h-screen w-screen text-blue-200 container">
+  <div
+    id="app-canvas"
+    class="flex flex-col bg-black h-screen w-screen text-blue-200 container mx-auto"
+  >
     <div
       class="absolute top-0 left-0 right-0 bottom-0 z-50 bg-opacity-50 duration-200 transition bg-black"
       v-if="open"
     ></div>
     <aside
+      v-if="hasNav"
       class="absolute w-2/3 top-0 left-0 bg-black bottom-0 z-50 transform shadow-xl transition duration-200 ease-in"
-      v-bind:class="{'-translate-x-full': !open}"
+      v-bind:class="{ '-translate-x-full': !open }"
     >
       <button @click="open = !open">&times;</button>
     </aside>
 
-    <header class="text-blue-200 flex justify-between content-center items-center">
-      <button class="h-6 w-6 m-2 text-blue-300" @click="open = !open">
+    <header
+      class="text-blue-200 flex justify-between content-center items-center"
+    >
+      <button class="h-6 w-6 m-2 text-blue-300" @click="open = !open" v-if="hasNav">
         <svg
           viewBox="0 0 32 32"
           class="h-full w-full"
@@ -32,7 +38,7 @@
       <div class="px-4">
         <div class="flex flex-col">
           <span class="text-6xl">
-            {{drankToday}}
+            {{ drankToday }}
             <span class="text-opacity-50 text-blue-200">l</span>
           </span>
           <span class="text-opacity-25 text-blue-200">Getrunken</span>
@@ -40,15 +46,17 @@
       </div>
       <div style="padding-top: 56.25%" class="w-full relative">
         <div class="absolute top-0 left-0 w-full h-full">
-          <Chart v-bind:data="chartData" v-bind:target="target"/>
+          <Chart v-bind:data="chartData" v-bind:target="target" />
         </div>
       </div>
-      <section class="text-2xl text-gray-100 justify-center space-x-4 items-center flex">
+      <section
+        class="text-2xl text-gray-100 justify-center space-x-4 items-center flex"
+      >
         <button @click="addDay(-1)">
           <svg viewBox="0 0 10 10" class="w-6 h-6">
             <path
-              d="    M6,2 
-                     L 4,5 
+              d="    M6,2
+                     L 4,5
                      L 6,8"
               style="stroke-width: 1"
               stroke-linejoin="round"
@@ -57,12 +65,12 @@
             ></path>
           </svg>
         </button>
-        <button>{{dateIntl}}</button>
+        <button>{{ dateIntl }}</button>
         <button @click="addDay(1)">
           <svg viewBox="0 0 10 10" class="w-6 h-6">
             <path
-              d="    M4,2 
-                     L 6,5 
+              d="    M4,2
+                     L 6,5
                      L 4,8"
               style="stroke-width: 1"
               stroke-linejoin="round"
@@ -93,26 +101,27 @@ import {
   endOfDay,
   startOfDay,
   addDays,
-  getTime
+  getTime,
 } from "date-fns";
 
 export default {
   components: {
     DrinkButton,
-    Chart
+    Chart,
   },
   data() {
     return {
+      hasNav: false,
       open: false,
       date: Date.now(),
       target: 3,
-      drank: []
+      drank: [],
     };
   },
   watch: {
     date(old, now) {
       this.loadData();
-    }
+    },
   },
   async mounted() {
     await this.loadData();
@@ -121,7 +130,7 @@ export default {
     async loadData() {
       this.drank = await db.readAll({
         fromDate: getTime(startOfDay(this.date)),
-        toDate: getTime(endOfDay(this.date))
+        toDate: getTime(endOfDay(this.date)),
       });
     },
     addDay(offset) {
@@ -131,7 +140,7 @@ export default {
       const entry = { date: Date.now(), amount };
       this.drank.push(entry);
       await db.insert(entry);
-    }
+    },
   },
   computed: {
     dateIntl() {
@@ -148,9 +157,9 @@ export default {
         { x: 0, y: 0 },
         ...this.drankAccumulated.map(({ amountAccumulated, date }) => ({
           x: getHours(date),
-          y: amountAccumulated
+          y: amountAccumulated,
         })),
-        { x: 160, y: this.drankToday }
+        { x: 160, y: this.drankToday },
       ];
     },
 
@@ -162,7 +171,7 @@ export default {
           const last = lastAccItem ? lastAccItem.amountAccumulated : 0;
           return [...acc, { ...curr, amountAccumulated: last + curr.amount }];
         }, []);
-    }
-  }
+    },
+  },
 };
 </script>

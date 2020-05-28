@@ -5,17 +5,26 @@
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html",
+    "prebuild": "rm -rf .cache/ dist/"
   },
   "dependencies": {
     "autoprefixer": "9.8.0",
     "d3-scale": "3.2.1",
     "date-fns": "2.14.0",
     "tailwindcss": "1.4.6",
-    "vue": "2.6.11"
+    "vue": "2.6.11",
+    "vue-hot-reload-api": "^2.3.4"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.6.1"
+    "@babel/plugin-transform-runtime": "^7.10.1",
+    "@fullhuman/postcss-purgecss": "^2.2.0",
+    "@vue/component-compiler-utils": "^3.1.2",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "parcel-bundler": "^1.6.1",
+    "typescript": "^3.9.3",
+    "vue-template-compiler": "^2.6.11"
   },
   "keywords": []
 }
